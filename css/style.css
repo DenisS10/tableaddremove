@@ -1,5 +1,5 @@
 .tableDiv{
-    width: 50%;
+    width: 80%;
     margin-left: 2%;
     /*float:left;*/
 }
@@ -8,6 +8,6 @@
     margin-left: 2%;
    /* float:left;*/
 }
-.btn{
+.btnSend{
     border: 1px solid black;
 }

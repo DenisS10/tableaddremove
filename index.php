@@ -27,16 +27,13 @@ error_reporting(E_ALL);
     ?>
 </pre>
 
-
-
 <?
 
-    if (!empty($_POST['task'] && $_POST['deadline'])) {
+    if (!empty($task) && !empty($deadline)) {
         if (isset($task) && isset($deadline)) {
 
 
             $fw = fopen("table.txt", 'a');
-//$line = implode(PHP_EOL, $line);
             $str = $task . ';' . $deadline . ';' . PHP_EOL;
             fwrite($fw, $str);
             fclose($fw);
@@ -44,6 +41,7 @@ error_reporting(E_ALL);
     }
 
 ?>
+
 <div class="tableDiv">
     <table class="table table-bordered">
         <?php $fp = fopen('table.txt', 'r');
@@ -58,7 +56,7 @@ error_reporting(E_ALL);
             <tr>
                 <td><?= $line[0] ?></td>
                 <td><?= $line[1] ?></td>
-
+                <td><button class="btn-danger" type="button">X</button></td>
             </tr>
 
             <?
@@ -73,7 +71,7 @@ error_reporting(E_ALL);
     <form action="index.php" method="post">
         <input autocomplete="off" name="task">
         <input autocomplete="off" name="deadline">
-        <button class="btn" type="submit">Send</button>
+        <button class="btn btnSend" type="submit">Send</button>
     </form>
 </div>
 
