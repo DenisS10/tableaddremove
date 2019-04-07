@@ -3,10 +3,12 @@
     margin-left: 2%;
     /*float:left;*/
 }
-.formDiv{
+.formDivAdd{
     width: 50%;
     margin-left: 2%;
+    margin-top: 1%;
    /* float:left;*/
+  //  border: 1px solid blue;
 }
 .btnSend{
     border: 1px solid black;
