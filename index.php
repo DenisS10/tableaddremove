@@ -22,9 +22,10 @@ error_reporting(E_ALL);
     if (isset($_POST['deadline'])) {
         $deadline = $_POST['deadline'];
     }
-    if (isset($_POST['numberOfRecord'])) {
-        $numberOfRecord = $_POST['numberOfRecord'];
+    if (isset($_GET['numberOfRecord'])) {
+        $numberOfRecord = $_GET['numberOfRecord'];
     }
+
     ?>
 </pre>
 
@@ -35,7 +36,7 @@ if (!empty($task) && !empty($deadline)) {
 
 
         $fw = fopen("table.txt", 'a');
-        $str = $task . ';' . $deadline . ';' . PHP_EOL;
+        $str = $task . '&' . $deadline . '&' . PHP_EOL;
         fwrite($fw, $str);
         fclose($fw);
     }
@@ -45,7 +46,7 @@ if (!empty($task) && !empty($deadline)) {
 
 <?
 
-
+//Через НОМЕР СТРОКИ
 $file_out = file("table.txt"); // Считываем весь файл в массив //var_dump($file_out);
 if (isset($numberOfRecord) && $numberOfRecord > 0) {
     $numberOfRecord--;
@@ -67,23 +68,49 @@ file_put_contents("table.txt", implode("", $file_out));
 <div class="tableDiv">
     <table class="table table-bordered">
         <?php $fp = fopen('table.txt', 'r');//Чтение в таблицу
+
+        $i = 0;
         while ($line = fgets($fp)) {
+
             if (!$line)
                 continue;
 
-            $line = explode(';', $line);
+            $line = explode('&', $line);
+
+
             if (count($line) < 2)
                 continue;
+            $i++;
             ?>
             <tr>
                 <td><?= $line[0] ?></td>
                 <td><?= $line[1] ?></td>
+                <td><a class="btn btn-primary" href="modify.php?id=<?=$i?>">Modify</a> </td>
+                <td><a class="btn btn-danger" href="index.php?numberOfRecord=<?=$i?>">Delete</a></td>
                 <!-- <td><button class="btn-danger" type="button">X</button></td>-->
             </tr>
 
             <?
         }
         fclose($fp);
+        //if (!isset($_GET['numberOfRecord'])) {
+            //echo 'str not found';
+//            $numberOfRecord = $i;
+//        }
+
+
+        //echo $numberOfRecord . PHP_EOL;
+        //Удаление ЧЕРЕЗ КНОПКУ В ТАБЛИЦЕ
+        $file_out = file("table.txt"); // Считываем весь файл в массив //var_dump($file_out);
+        if (isset($numberOfRecord) && $numberOfRecord > 0) {
+            //$recordCount--;
+
+
+            unset($file_out[$numberOfRecord]);    //удаляем строчку
+            $numberOfRecord = '';
+        }
+        file_put_contents("table.txt", implode("", $file_out));
+
         ?>
 
     </table>
@@ -98,7 +125,7 @@ file_put_contents("table.txt", implode("", $file_out));
     </form>
 </div>
 <div class="formDivAdd">
-    <form action="index.php" method="POST">
+    <form action="index.php" method="get">
         <p>Удаление данных из таблицы по номеру строки</p>
         <input autocomplete="off" placeholder="Номер строки" name="numberOfRecord">
         <button class="btn btn-danger" type="submit">Delete</button>
