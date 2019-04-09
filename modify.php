@@ -25,9 +25,7 @@ for($i=0;$i<$id;$i++) {
 
 
 $lines = explode('&',$line);
-echo '<pre>';
-print_r($lines);
-echo '</pre>'
+
 ?>
 <div class="formDivAdd">
 <form action="save.php" method="get">
