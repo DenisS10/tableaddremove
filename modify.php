@@ -20,14 +20,17 @@ if (isset($_GET['id'])) {
 }
 $line = '';
 $fp = fopen('table.txt', 'r');
-for ($i = 0; $i < $id; $i++) {
-    $line = fgets($fp);
+if ($fp) {
+    for ($i = 0; $i < $id; $i++) {
+        $line = fgets($fp);
+    }
+
+
+    $lines = explode('&', $line);
+
 }
-
-
-$lines = explode('&', $line);
-
-
+else
+    echo 'File not found';
 ?>
 <div class="formDivAdd">
     <form action="save.php" method="get">

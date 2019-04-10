@@ -40,28 +40,24 @@ if (!isset($_COOKIE['auth']) || $_COOKIE['auth'] != 'ok') {
 <?
 //Сохранение в файл
 if (!empty($task) && !empty($deadline)) {
-    if (isset($task) && isset($deadline)) {
 
 
-        $fw = fopen("table.txt", 'a');
-        $str = $task . '&' . $deadline . '&' . PHP_EOL;
-        fwrite($fw, $str);
-        fclose($fw);
-    }
+    $fw = fopen("table.txt", 'a');
+    $str = $task . '&' . $deadline . '&' . PHP_EOL;
+    fwrite($fw, $str);
+    fclose($fw);
+
 }
 
-?>
 
-<?
-
-//Через НОМЕР СТРОКИ
+/*//Через НОМЕР СТРОКИ
 $file_out = file("table.txt"); // Считываем весь файл в массив //var_dump($file_out);
 if (isset($numberOfRecord) && $numberOfRecord > 0) {
     $numberOfRecord--;
     unset($file_out[$numberOfRecord]);    //удаляем строчку
     $numberOfRecord = '';
 }
-file_put_contents("table.txt", implode("", $file_out));
+file_put_contents("table.txt", implode("", $file_out));*/
 
 //echo '---------------------------------------------------------------------------';
 //var_dump($file_out);
@@ -76,31 +72,35 @@ file_put_contents("table.txt", implode("", $file_out));
 <div class="tableDiv">
     <table class="table table-bordered">
         <?php $fp = fopen('table.txt', 'r');//Чтение в таблицу
+        if ($fp) {
+           // print_r($fp);
+            $i = 0;
+            while ($line = fgets($fp)) {
 
-        $i = 0;
-        while ($line = fgets($fp)) {
+                if (!$line)
+                    continue;
 
-            if (!$line)
-                continue;
-
-            $line = explode('&', $line);
+                $line = explode('&', $line);
 
 
-            if (count($line) < 2)
-                continue;
-            $i++;
-            ?>
-            <tr>
-                <td><?= $line[0] ?></td>
-                <td><?= $line[1] ?></td>
-                <td><a class="btn btn-primary" href="modify.php?id=<?= $i ?>">Modify</a></td>
-                <td><a class="btn btn-danger" href="delete.php?numberOfRecord=<?= $i ?>">Delete</a></td>
-                <!-- <td><button class="btn-danger" type="button">X</button></td>-->
-            </tr>
+                if (count($line) < 2)
+                    continue;
+                $i++;
+                ?>
+                <tr>
+                    <td><?= $line[0] ?></td>
+                    <td><?= $line[1] ?></td>
+                    <td><a class="btn btn-primary" href="modify.php?id=<?= $i ?>">Modify</a></td>
+                    <td><a class="btn btn-danger" href="delete.php?numberOfRecord=<?= $i ?>">Delete</a></td>
+                    <!-- <td><button class="btn-danger" type="button">X</button></td>-->
+                </tr>
 
-            <?
+                <?
+            }
         }
-        fclose($fp);
+        fclose($fp); ?>
+
+        <?php
         //if (!isset($_GET['numberOfRecord'])) {
         //echo 'str not found';
         //            $numberOfRecord = $i;
@@ -109,7 +109,7 @@ file_put_contents("table.txt", implode("", $file_out));
 
         //echo $numberOfRecord . PHP_EOL;
         //Удаление ЧЕРЕЗ КНОПКУ В ТАБЛИЦЕ
-        $file_out = file("table.txt"); // Считываем весь файл в массив //var_dump($file_out);
+        /*$file_out = file("table.txt"); // Считываем весь файл в массив //var_dump($file_out);
         if (isset($numberOfRecord) && $numberOfRecord > 0) {
             //$recordCount--;
 
@@ -118,7 +118,7 @@ file_put_contents("table.txt", implode("", $file_out));
             $numberOfRecord = '';
         }
         file_put_contents("table.txt", implode("", $file_out));
-
+*/
         ?>
 
     </table>

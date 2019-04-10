@@ -4,7 +4,9 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 //header('location: index.php');
 
-
+$login ='';
+$pass = '';
+$cbRemember ='';
 if (isset($_POST['login'])) {
     $login = $_POST['login'];
 }
@@ -15,15 +17,15 @@ if (isset($_POST['cbRemember'])) {
     $cbRemember = $_POST['cbRemember'];
 }
 
-if (isset($login) && $login == 'login' && isset($pass) && $pass == 'pass') {
-    if (isset($cbRemember) && $cbRemember == 'on') {
+if ( $login == 'login' && $pass == 'pass') {
+    if ( $cbRemember == 'on') {
         setcookie('auth', 'ok', time()+60*60*24*7 );
         header('location: index.php');
     } else {
         setcookie('auth', 'ok', time()+60*60);
         header('location: index.php');
     }
-    print_r($_POST);
+    //print_r($_POST);
 }
 
 
