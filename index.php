@@ -2,6 +2,12 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+
+if (!isset($_COOKIE['auth']) || $_COOKIE['auth'] != 'ok') {
+    header('location: login.php');
+}
+
+
 ?>
 
 <html>
@@ -14,6 +20,7 @@ error_reporting(E_ALL);
 
 </head>
 <body>
+<a style="float:right;margin-right: 4%;margin-top: 1%;" class="btn btn-outline-warning" href="logout.php">Logout</a>
 <pre>
     <? //проверка входящих данных
     if (isset($_POST['task'])) {
@@ -25,6 +32,7 @@ error_reporting(E_ALL);
     if (isset($_GET['numberOfRecord'])) {
         $numberOfRecord = $_GET['numberOfRecord'];
     }
+
 
     ?>
 </pre>
@@ -116,12 +124,13 @@ file_put_contents("table.txt", implode("", $file_out));
     </table>
 
 </div>
+
 <div class="formDivAdd">
     <form action="add.php" method="post">
         <p>Добавление данных в таблицу</p>
         <input autocomplete="off" name="task">
         <input autocomplete="off" name="deadline">
-        <button class="btn btnSend" type="submit">Send</button>
+        <button class="btn btn-outline-dark" type="submit">Send</button>
     </form>
 </div>
 <div class="formDivAdd">

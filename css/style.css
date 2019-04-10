@@ -10,6 +10,16 @@
    /* float:left;*/
   //  border: 1px solid blue;
 }
+.formDivLogin{
+    width: 50%;
+    margin-left: 40%;
+    margin-top: 15%;
+    /* float:left;*/
+//  border: 1px solid blue;
+}
 .btnSend{
     border: 1px solid black;
+}
+.inp{
+    margin-top: 1%;
 }
