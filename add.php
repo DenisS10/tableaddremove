@@ -8,7 +8,7 @@ if (isset($_POST['deadline'])) {
     $deadline = $_POST['deadline'];
 }
 if (!empty($task) && !empty($deadline)) {
-    if (isset($task) && isset($deadline)) {
+
 
 
         $fw = fopen("table.txt", 'a');
@@ -16,4 +16,4 @@ if (!empty($task) && !empty($deadline)) {
         fwrite($fw, $str);
         fclose($fw);
     }
-}
+

@@ -28,7 +28,6 @@ if ( $login == 'login' && $pass == 'pass') {
     //print_r($_POST);
 }
 
-
 ?>
 <html>
 <head>
@@ -38,17 +37,21 @@ if ( $login == 'login' && $pass == 'pass') {
     <link href="css/style.css" rel="stylesheet">
 </head>
 <body>
-<pre>
-<div class="formDivLogin">
 
+<div class="form-row align-items-center formDivLogin">
+<?='<pre>'?>
     <form action="login.php" method="post">
-        <input class="inp" name="login">
-        <input class="inp" type="password" autocomplete="off" name="pass"><br>
-        <input class="inp" type="checkbox"  name="cbRemember"> remember
-        <button class="btn btnSend" type="submit">Login</button>
+        <input class="form-control" placeholder="Enter login" name="login">
+        <input class="form-control" placeholder="Enter password" type="password" autocomplete="off" name="pass"><br>
+<div >
+        <input class="form-check-input"  type="checkbox" name="cbRemember">Remember me
+
+</div>
+        <button class="btn btn-primary"  type="submit">Login</button>
     </form>
 
 
-</div></pre>
+</div>
+</pre>
 </body>
 </html>

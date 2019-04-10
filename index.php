@@ -17,6 +17,9 @@ if (!isset($_COOKIE['auth']) || $_COOKIE['auth'] != 'ok') {
     <title>table</title>
     <link rel="stylesheet" href="css/bootstrap.css">
     <link href="css/style.css" rel="stylesheet">
+    <script src="js/jquery-3.3.1.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/custom.js"></script>
 
 </head>
 <body>
@@ -92,7 +95,7 @@ file_put_contents("table.txt", implode("", $file_out));*/
                     <td><?= $line[1] ?></td>
                     <td><a class="btn btn-primary" href="modify.php?id=<?= $i ?>">Modify</a></td>
                     <td><a class="btn btn-danger" href="delete.php?numberOfRecord=<?= $i ?>">Delete</a></td>
-                    <!-- <td><button class="btn-danger" type="button">X</button></td>-->
+<!--                    <td><a class="btn btn-danger" href="#" id="delBtn" >X</a></td>-->
                 </tr>
 
                 <?
