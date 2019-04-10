@@ -2,6 +2,11 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+
+if (!isset($_COOKIE['auth']) || $_COOKIE['auth'] != 'ok') {
+
+    header('location: login.php');
+}
 ?>
 
 <html>
@@ -14,7 +19,7 @@ error_reporting(E_ALL);
 </head>
 <body>
 <?
-
+$id=0;
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
 }
