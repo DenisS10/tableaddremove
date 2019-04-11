@@ -4,12 +4,13 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 //header('location: index.php');
 
-$login ='';
+//$login ='';
 $pass = '';
 $cbRemember ='';
-if (isset($_POST['login'])) {
-    $login = $_POST['login'];
-}
+//if (isset($_POST['login'])) {
+//    $login = $_POST['login'];
+//}
+$login = isset($_POST['login']) ? $_POST['login'] : '';
 if (isset($_POST['pass'])) {
     $pass = $_POST['pass'];
 }

@@ -1,12 +1,19 @@
 <?php
 header('location: index.php');
 //Сохранение в файл
-if (isset($_POST['task'])) {
-    $task = $_POST['task'];
-}
-if (isset($_POST['deadline'])) {
-    $deadline = $_POST['deadline'];
-}
+//if (isset($_POST['task'])) {
+//    $task = $_POST['task'];
+//}
+//if (isset($_POST['deadline'])) {
+//    $deadline = $_POST['deadline'];
+//}
+
+$task = isset($_POST['task']) ? $_POST['task'] : '';
+$deadline = isset($_POST['deadline']) ? $_POST['deadline'] : '';
+
+
+
+
 if (!empty($task) && !empty($deadline)) {
 
 

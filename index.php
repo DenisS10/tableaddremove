@@ -73,7 +73,15 @@ file_put_contents("table.txt", implode("", $file_out));*/
 ?>
 </div>
 <div class="tableDiv">
-    <table class="table table-bordered">
+    <table class="table table-bordered table-success">
+        <thead class="table-primary">
+        <tr>
+            <td>Task</td>
+            <td>Deadline</td>
+            <td>Modify</td>
+            <td>Delete</td>
+        </tr>
+        </thead>
         <?php $fp = fopen('table.txt', 'r');//Чтение в таблицу
         if ($fp) {
            // print_r($fp);
@@ -89,19 +97,35 @@ file_put_contents("table.txt", implode("", $file_out));*/
                 if (count($line) < 2)
                     continue;
                 $i++;
-                ?>
-                <tr>
-                    <td><?= $line[0] ?></td>
-                    <td><?= $line[1] ?></td>
-                    <td><a class="btn btn-primary" href="modify.php?id=<?= $i ?>">Modify</a></td>
-                    <td><a class="btn btn-danger" href="delete.php?numberOfRecord=<?= $i ?>">Delete</a></td>
-<!--                    <td><a class="btn btn-danger" href="#" id="delBtn" >X</a></td>-->
-                </tr>
+                $customThemeR = '';
+                if ($line[1] <= 24)
+                    $customThemeR = 'table-danger';
+                $expireTime = [];
+                $expireTime[$i] = time() + $line[1] * 60 * 60;
+                if ($expireTime[$i] > time()) {
+//                    echo '<pre>';
+//                    print_r( /*date('Y.m.j H:i:s',*/
+//                        $expireTime);
+//                    echo '</pre>';
 
-                <?
+                    ?>
+                    <tr>
+                        <td class="<?= $customThemeR ?>"><?= $line[0] ?></td>
+                        <td class="<?= $customThemeR ?>"><?= $line[1] . ' hours' ?></td>
+                        <td class="<?= $customThemeR ?>"><a class="btn btn-primary" href="modify.php?id=<?= $i ?>">Modify</a>
+                        </td>
+                        <td class="<?= $customThemeR ?>"><a class="btn btn-danger"
+                                                            href="delete.php?numberOfRecord=<?= $i ?>">Delete</a></td>
+                        <!--                    <td><a class="btn btn-danger" href="#" id="delBtn" >X</a></td>-->
+                    </tr>
+
+                    <?
+                }
             }
         }
-        fclose($fp); ?>
+        fclose($fp);
+
+        ?>
 
         <?php
         //if (!isset($_GET['numberOfRecord'])) {
@@ -131,8 +155,8 @@ file_put_contents("table.txt", implode("", $file_out));*/
 <div class="formDivAdd">
     <form action="add.php" method="post">
         <p>Добавление данных в таблицу</p>
-        <input autocomplete="off" name="task">
-        <input autocomplete="off" name="deadline">
+        <input autocomplete="off" placeholder="Enter task" name="task">
+        <input autocomplete="off" placeholder="deadline[hours]" type="number" name="deadline">
         <button class="btn btn-outline-dark" type="submit">Send</button>
     </form>
 </div>
