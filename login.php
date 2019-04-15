@@ -3,32 +3,57 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 //header('location: index.php');
-
-//$login ='';
-$pass = '';
-$cbRemember ='';
-//if (isset($_POST['login'])) {
-//    $login = $_POST['login'];
-//}
 $login = isset($_POST['login']) ? $_POST['login'] : '';
-if (isset($_POST['pass'])) {
-    $pass = $_POST['pass'];
+$pass = isset($_POST['pass']) ? $_POST['pass'] : '';
+$cbRemember = isset($_POST['cbRemember']) ? $_POST['cbRemember'] : '';
+
+$db = mysqli_connect('site.local',
+    'root',
+    '',
+    'Tasks'
+);
+if (!$db) {
+    echo $db->errno . ' ' . $db->error . ' ';
+    print_r($db->error_list);
+    //exit();
 }
-if (isset($_POST['cbRemember'])) {
-    $cbRemember = $_POST['cbRemember'];
+$query='';
+$query = "SELECT `id`,`login`,`password`,`user_name` FROM users";
+$res = mysqli_query($db, $query);
+
+
+
+
+//$row = mysqli_fetch_assoc($res);
+$users = [];
+while ($row = mysqli_fetch_assoc($res)) {
+    $users[] = $row;
+
+
 }
 
-if ( $login == 'login' && $pass == 'pass') {
-    if ( $cbRemember == 'on') {
-        setcookie('auth', 'ok', time()+60*60*24*7 );
-        header('location: index.php');
-    } else {
-        setcookie('auth', 'ok', time()+60*60);
-        header('location: index.php');
+
+
+
+
+foreach ($users as $user) {
+
+$logPass = password_verify($pass,$user['password']);
+
+
+
+
+    if ($login == $user['login'] && $logPass == true) {
+        if ($cbRemember == 'on') {
+            setcookie('auth', 'ok', time() + 60 * 60 * 24 * 7);
+            header('location: index.php');
+        } else {
+            setcookie('auth', 'ok', time() + 60 * 60);
+            header('location: index.php');
+        }
+        //print_r($_POST);
     }
-    //print_r($_POST);
 }
-
 ?>
 <html>
 <head>
@@ -40,19 +65,20 @@ if ( $login == 'login' && $pass == 'pass') {
 <body>
 
 <div class="form-row align-items-center formDivLogin">
-<?='<pre>'?>
+    <?= '<pre>' ?>
     <form action="login.php" method="post">
         <input class="form-control" placeholder="Enter login" name="login">
         <input class="form-control" placeholder="Enter password" type="password" autocomplete="off" name="pass"><br>
-<div >
-        <input class="form-check-input"  type="checkbox" name="cbRemember">Remember me
+        <div>
+            <input class="form-check-input" type="checkbox" name="cbRemember">Remember me
 
-</div>
-        <button class="btn btn-primary"  type="submit">Login</button>
+        </div>
+        <button class="btn btn-primary" type="submit">Login</button>
+        <a href="signup.php">Sign up</a>
     </form>
 
 
 </div>
-</pre>
+
 </body>
 </html>

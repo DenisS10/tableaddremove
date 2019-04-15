@@ -7,6 +7,22 @@ if (!isset($_COOKIE['auth']) || $_COOKIE['auth'] != 'ok') {
     header('location: login.php');
 }
 
+$db = mysqli_connect('site.local',
+    'root',
+    '',
+    'Tasks'
+);
+if(!$db)
+{
+    echo $db->errno . ' ' . $db->error .' ';
+    print_r($db->error_list );
+    exit();
+}
+$res = mysqli_query($db, "");
+
+
+mysqli_close($db);
+
 
 ?>
 
@@ -84,7 +100,7 @@ file_put_contents("table.txt", implode("", $file_out));*/
         </thead>
         <?php $fp = fopen('table.txt', 'r');//Чтение в таблицу
         if ($fp) {
-           // print_r($fp);
+            // print_r($fp);
             $i = 0;
             while ($line = fgets($fp)) {
 
@@ -100,6 +116,7 @@ file_put_contents("table.txt", implode("", $file_out));*/
                 $customThemeR = '';
                 if ($line[1] <= 24)
                     $customThemeR = 'table-danger';
+
                 $expireTime = [];
                 $expireTime[$i] = time() + $line[1] * 60 * 60;
                 if ($expireTime[$i] > time()) {
@@ -124,8 +141,10 @@ file_put_contents("table.txt", implode("", $file_out));*/
             }
         }
         fclose($fp);
+        ////////////////////////////////////////////
+        /// <div><span id="timer"></span></div>?>
 
-        ?>
+
 
         <?php
         //if (!isset($_GET['numberOfRecord'])) {
