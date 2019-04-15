@@ -17,10 +17,26 @@ $deadline = isset($_POST['deadline']) ? $_POST['deadline'] : '';
 if (!empty($task) && !empty($deadline)) {
 
 
-
-        $fw = fopen("table.txt", 'a');
-        $str = $task . '&' . $deadline . '&' . PHP_EOL;
-        fwrite($fw, $str);
-        fclose($fw);
+//    $fw = fopen("table.txt", 'a');
+//    $str = $task . '&' . $deadline . '&' . PHP_EOL;
+//    fwrite($fw, $str);
+//    fclose($fw);
+    $db = mysqli_connect('site.local',
+        'root',
+        '',
+        'Tasks'
+    );
+    if (!$db) {
+        echo $db->errno . ' ' . $db->error . ' ';
+        print_r($db->error_list);
+        exit();
     }
+    $currDate = time();
 
+    $querySave="insert into task(task, deadline, `creation date`) values('$task','$deadline','$currDate')";
+    $result = mysqli_query($db,$querySave);
+
+
+    mysqli_close($db);
+
+}

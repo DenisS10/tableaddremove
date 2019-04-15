@@ -18,7 +18,8 @@ if(!$db)
     print_r($db->error_list );
     exit();
 }
-$res = mysqli_query($db, "");
+$queryTaskView = "select * from tasks";
+$res = mysqli_query($db, $queryTaskView);
 
 
 mysqli_close($db);
