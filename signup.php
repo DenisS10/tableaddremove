@@ -30,9 +30,9 @@ if(!empty($signLogin) && !empty($signPass) && !empty($signName) ) {
     }
 
     $currDate = time();
-    $SignHashPass = password_hash($signPass, PASSWORD_DEFAULT);
+    $signHashPass = password_hash($signPass, PASSWORD_DEFAULT);
     $res = mysqli_query($db,
-        "insert into users(login, password, user_name,first_time) values('$signLogin','$SignHashPass','$signName','$currDate')"
+        "insert into users(login, password, user_name,first_time) values('$signLogin','$signHashPass','$signName','$currDate')"
     );
 
 

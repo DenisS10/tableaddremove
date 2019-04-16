@@ -99,7 +99,7 @@ file_put_contents("table.txt", implode("", $file_out));*/
             <td>Delete</td>
         </tr>
         </thead>
-        <?php $fp = fopen('table.txt', 'r');//Чтение в таблицу
+        <?php //$fp = fopen('table.txt', 'r');//Чтение в таблицу
 
         ///////////////////////////////////////////////////////////////////////
         $db = mysqli_connect('site.local',
@@ -113,8 +113,9 @@ file_put_contents("table.txt", implode("", $file_out));*/
         //            //exit();
         //        }
         //$query='';
-        $query = "SELECT `user_id`,`task`,`deadline` FROM tasks";
-        $res = mysqli_query($db,$query);
+        $queryTable = "SELECT `id`,`user_id`,`task`,`deadline` FROM task";
+
+        $res = mysqli_query($db, $queryTable);
 
 
         //$row = mysqli_fetch_assoc($res);
@@ -124,7 +125,12 @@ file_put_contents("table.txt", implode("", $file_out));*/
         }
 
 
+
         ///////////////////////////////////////////////////////////////////////
+        $idDb = 0;
+        $i = 0;
+        if ($i > 0)
+            $idDb = $tasks[$i]['id'];
 
 
         foreach ($tasks as $task) {
@@ -132,25 +138,27 @@ file_put_contents("table.txt", implode("", $file_out));*/
 
             if ($db) {
                 // print_r($fp);
-                $i = 0;
+                $idDb = $tasks[$i]['id'];
+
 //            while ($line = fgets($fp)) {
 
                 if (!$task)
                     continue;
 
-                $line = explode('&', $line);
+                //           $line = explode('&', $line);
 
 
 //                if (count($line) < 2)
 //                    continue;
                 $i++;
+
                 $customThemeR = '';
-                if ($line[1] <= 24)
+                if ($task['deadline'] <= 24)
                     $customThemeR = 'table-danger';
 
                 $expireTime = [];
-                $expireTime[$i] = time() + $line[1] * 60 * 60;
-                if ($expireTime[$i] > time()) {
+                $expireTime[$idDb] = time() + $task['deadline'] * 60 * 60;
+                if ($expireTime[$idDb] > time()) {
 //                    echo '<pre>';
 //                    print_r( /*date('Y.m.j H:i:s',*/
 //                        $expireTime);
@@ -160,10 +168,11 @@ file_put_contents("table.txt", implode("", $file_out));*/
                     <tr>
                         <td class="<?= $customThemeR ?>"><?= $task['task'] ?></td>
                         <td class="<?= $customThemeR ?>"><?= $task['deadline'] . ' hours' ?></td>
-                        <td class="<?= $customThemeR ?>"><a class="btn btn-primary" href="modify.php?id=<?= $i ?>">Modify</a>
+                        <td class="<?= $customThemeR ?>"><a class="btn btn-primary" href="modify.php?id=<?= $idDb ?>">Modify</a>
                         </td>
                         <td class="<?= $customThemeR ?>"><a class="btn btn-danger"
-                                                            href="delete.php?numberOfRecord=<?= $i ?>">Delete</a></td>
+                                                            href="delete.php?numberOfRecord=<?= $idDb ?>">Delete</a>
+                        </td>
                         <!--                    <td><a class="btn btn-danger" href="#" id="delBtn" >X</a></td>-->
                     </tr>
 
@@ -210,12 +219,12 @@ file_put_contents("table.txt", implode("", $file_out));*/
         <button class="btn btn-outline-dark" type="submit">Send</button>
     </form>
 </div>
-<div class="formDivAdd">
-    <form action="delete.php" method="get">
-        <p>Удаление данных из таблицы по номеру строки</p>
-        <input autocomplete="off" placeholder="Номер строки" name="numberOfRecord">
-        <button class="btn btn-danger" type="submit">Delete</button>
-    </form>
-</div>
+<!--<div class="formDivAdd">-->
+<!--    <form action="delete.php" method="get">-->
+<!--        <p>Удаление данных из таблицы по номеру строки</p>-->
+<!--        <input autocomplete="off" placeholder="Номер строки" name="numberOfRecord">-->
+<!--        <button class="btn btn-danger" type="submit">Delete</button>-->
+<!--    </form>-->
+<!--</div>-->
 </body>
 </html>

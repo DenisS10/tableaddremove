@@ -33,7 +33,7 @@ if (!empty($task) && !empty($deadline)) {
     }
     $currDate = time();
 
-    $querySave="insert into task(task, deadline, `creation date`) values('$task','$deadline','$currDate')";
+    $querySave="insert into task(task, deadline, `creation_date`) values('$task','$deadline','$currDate')";
     $result = mysqli_query($db,$querySave);
 
 

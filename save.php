@@ -25,7 +25,7 @@ $workArr = file("table.txt"); // Считываем весь файл в мас�
 //if (isset($numberOfRecord) && $numberOfRecord > 0) {
 //$recordCount--;
 $workArr[$id - 1] = $modTask . '&' . $modDeadline . '&' . PHP_EOL; //Рефакторинг массива
-file_put_contents("table.txt", implode("", $workArr));//Запись нового массива в файл
+//file_put_contents("table.txt", implode("", $workArr));//Запись нового массива в файл
 
 
 
