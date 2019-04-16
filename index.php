@@ -12,10 +12,9 @@ $db = mysqli_connect('site.local',
     '',
     'Tasks'
 );
-if(!$db)
-{
-    echo $db->errno . ' ' . $db->error .' ';
-    print_r($db->error_list );
+if (!$db) {
+    echo $db->errno . ' ' . $db->error . ' ';
+    print_r($db->error_list);
     exit();
 }
 $queryTaskView = "select * from tasks";
@@ -41,6 +40,7 @@ mysqli_close($db);
 </head>
 <body>
 <a style="float:right;margin-right: 4%;margin-top: 1%;" class="btn btn-outline-warning" href="logout.php">Logout</a>
+<a style="float:left;margin-left: 4%;margin-top: 1%;" href="lk.php">My account</a>
 <pre>
     <? //проверка входящих данных
     if (isset($_POST['task'])) {
@@ -100,19 +100,49 @@ file_put_contents("table.txt", implode("", $file_out));*/
         </tr>
         </thead>
         <?php $fp = fopen('table.txt', 'r');//Чтение в таблицу
-        if ($fp) {
-            // print_r($fp);
-            $i = 0;
-            while ($line = fgets($fp)) {
 
-                if (!$line)
+        ///////////////////////////////////////////////////////////////////////
+        $db = mysqli_connect('site.local',
+            'root',
+            '',
+            'tasks'
+        );
+        //        if (!$db) {
+        //            echo $db->errno . ' ' . $db->error . ' ';
+        //            print_r($db->error_list);
+        //            //exit();
+        //        }
+        //$query='';
+        $query = "SELECT `user_id`,`task`,`deadline` FROM tasks";
+        $res = mysqli_query($db,$query);
+
+
+        //$row = mysqli_fetch_assoc($res);
+        $tasks = [];
+        while ($row = mysqli_fetch_assoc($res)) {
+            $tasks[] = $row;
+        }
+
+
+        ///////////////////////////////////////////////////////////////////////
+
+
+        foreach ($tasks as $task) {
+
+
+            if ($db) {
+                // print_r($fp);
+                $i = 0;
+//            while ($line = fgets($fp)) {
+
+                if (!$task)
                     continue;
 
                 $line = explode('&', $line);
 
 
-                if (count($line) < 2)
-                    continue;
+//                if (count($line) < 2)
+//                    continue;
                 $i++;
                 $customThemeR = '';
                 if ($line[1] <= 24)
@@ -128,8 +158,8 @@ file_put_contents("table.txt", implode("", $file_out));*/
 
                     ?>
                     <tr>
-                        <td class="<?= $customThemeR ?>"><?= $line[0] ?></td>
-                        <td class="<?= $customThemeR ?>"><?= $line[1] . ' hours' ?></td>
+                        <td class="<?= $customThemeR ?>"><?= $task['task'] ?></td>
+                        <td class="<?= $customThemeR ?>"><?= $task['deadline'] . ' hours' ?></td>
                         <td class="<?= $customThemeR ?>"><a class="btn btn-primary" href="modify.php?id=<?= $i ?>">Modify</a>
                         </td>
                         <td class="<?= $customThemeR ?>"><a class="btn btn-danger"
@@ -141,7 +171,7 @@ file_put_contents("table.txt", implode("", $file_out));*/
                 }
             }
         }
-        fclose($fp);
+        //        fclose($fp);
         ////////////////////////////////////////////
         /// <div><span id="timer"></span></div>?>
 

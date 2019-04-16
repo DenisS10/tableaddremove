@@ -2,7 +2,7 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-//eader('location: index.php');
+//header('location: index.php');
 //Сохранение в файл
 //if (isset($_POST['task'])) {
 //    $task = $_POST['task'];
