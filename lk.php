@@ -7,7 +7,7 @@ $loginMod = isset($_POST['login']) ? $_POST['login'] : '';
 $oldPass = isset($_POST['oldPass']) ? $_POST['oldPass'] : '';
 $newPass = isset($_POST['newPass']) ? $_POST['newPass'] : '';
 $newRepeatPass = isset($_POST['newRepeatPass']) ? $_POST['newRepeatPass'] : '';
-
+$id = $_SESSION['id'];
 
 $db = mysqli_connect('site.local',
     'root',
@@ -47,7 +47,7 @@ foreach ($users as $user) {
 
     if ($loginMod == $user['login'] && $logPass == true) {
         $tempUser=$user['login'];
-        $queryMod = "UPDATE `users` SET `password`='$newHashPass'WHERE `login` ='$loginMod'  ";//UPDATE `users` SET `login`='www' WHERE (`id`='71')
+        $queryMod = "UPDATE `users` SET `password`='$newHashPass'WHERE `id` =$id ";//UPDATE `users` SET `login`='www' WHERE (`id`='71')
         $result = mysqli_query($db,$queryMod);
         mysqli_close($db);
         break 1;
@@ -72,7 +72,6 @@ foreach ($users as $user) {
 <div class="form-row align-items-center formDivLogin">
     <pre>
     <form action="lk.php" method="post">
-        <input class="form-control" placeholder="Enter login" name="loginMyAcc">
         <input class="form-control" placeholder="Enter old password" autocomplete="off" name="oldPass">
         <input class="form-control" placeholder="Enter new password" type="password" autocomplete="off" name="newPass">
         <input class="form-control" placeholder="Repeat new password" type="password" autocomplete="off"
@@ -81,7 +80,7 @@ foreach ($users as $user) {
         <!--            <input class="form-check-input" type="checkbox" name="cbRemember">Remember me-->
         <!---->
         <!--        </div>-->
-        <button class="btn btn-primary" type="submit">Login</button>
+        <button class="btn btn-primary" type="submit">Change password</button>
 
     </form>
 

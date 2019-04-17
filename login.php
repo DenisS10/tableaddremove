@@ -7,6 +7,7 @@ $login = isset($_POST['login']) ? $_POST['login'] : '';
 $pass = isset($_POST['pass']) ? $_POST['pass'] : '';
 $cbRemember = isset($_POST['cbRemember']) ? $_POST['cbRemember'] : '';
 
+
 $db = mysqli_connect('site.local',
     'root',
     '',
@@ -36,22 +37,35 @@ while ($row = mysqli_fetch_assoc($res)) {
 
 
 
+
+
+
 foreach ($users as $user) {
+
 
 $logPass = password_verify($pass,$user['password']);
 
 
 
 
+
     if ($login == $user['login'] && $logPass == true) {
         if ($cbRemember == 'on') {
+
+
+            session_start();
+            $_SESSION['id'] = $user['id'];
+            //$_SESSION['auth'] = 'ok';
+
+            //session_write_close();
             setcookie('auth', 'ok', time() + 60 * 60 * 24 * 7);
             header('location: index.php');
         } else {
+            $_SESSION['auth'] = 'ok';
             setcookie('auth', 'ok', time() + 60 * 60);
-            header('location: index.php');
+            //header('location: index.php');
         }
-        //print_r($_POST);
+        print_r($_SESSION);
     }
 }
 ?>

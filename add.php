@@ -7,20 +7,20 @@ header('location: index.php');
 //if (isset($_POST['deadline'])) {
 //    $deadline = $_POST['deadline'];
 //}
+session_start();
 
 $task = isset($_POST['task']) ? $_POST['task'] : '';
 $deadline = isset($_POST['deadline']) ? $_POST['deadline'] : '';
+$userId = $_SESSION['id'];
 
+echo $userId;
 
 
 
 if (!empty($task) && !empty($deadline)) {
 
 
-//    $fw = fopen("table.txt", 'a');
-//    $str = $task . '&' . $deadline . '&' . PHP_EOL;
-//    fwrite($fw, $str);
-//    fclose($fw);
+
     $db = mysqli_connect('site.local',
         'root',
         '',
@@ -33,7 +33,8 @@ if (!empty($task) && !empty($deadline)) {
     }
     $currDate = time();
 
-    $querySave="insert into task(task, deadline, `creation_date`) values('$task','$deadline','$currDate')";
+    $querySave="insert into `task` (`user_id`,`task`, `deadline`,`creation_date`) values($userId,'$task',$deadline,$currDate)";
+
     $result = mysqli_query($db,$querySave);
 
 
