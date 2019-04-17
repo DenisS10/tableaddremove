@@ -3,6 +3,9 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+session_start();
+
+$id = $_SESSION['id'];
 if (!isset($_COOKIE['auth']) || $_COOKIE['auth'] != 'ok') {
     header('location: login.php');
 }
@@ -19,6 +22,7 @@ if (!$db) {
 }
 $queryTaskView = "select * from tasks";
 $res = mysqli_query($db, $queryTaskView);
+
 
 
 mysqli_close($db);
@@ -59,15 +63,15 @@ mysqli_close($db);
 
 <?
 //Сохранение в файл
-if (!empty($task) && !empty($deadline)) {
-
-
-    $fw = fopen("table.txt", 'a');
-    $str = $task . '&' . $deadline . '&' . PHP_EOL;
-    fwrite($fw, $str);
-    fclose($fw);
-
-}
+//if (!empty($task) && !empty($deadline)) {
+//
+//
+//    $fw = fopen("table.txt", 'a');
+//    $str = $task . '&' . $deadline . '&' . PHP_EOL;
+//    fwrite($fw, $str);
+//    fclose($fw);
+//
+//}
 
 
 /*//Через НОМЕР СТРОКИ
@@ -113,7 +117,7 @@ file_put_contents("table.txt", implode("", $file_out));*/
         //            //exit();
         //        }
         //$query='';
-        $queryTable = "SELECT `id`,`user_id`,`task`,`deadline` FROM task";
+        $queryTable = "SELECT `id`,`user_id`,`task`,`deadline` FROM task WHERE `user_id` = $id";
 
         $res = mysqli_query($db, $queryTable);
 

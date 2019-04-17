@@ -3,7 +3,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 //header('location: index.php');
-$loginMod = isset($_POST['login']) ? $_POST['login'] : '';
+session_start();
 $oldPass = isset($_POST['oldPass']) ? $_POST['oldPass'] : '';
 $newPass = isset($_POST['newPass']) ? $_POST['newPass'] : '';
 $newRepeatPass = isset($_POST['newRepeatPass']) ? $_POST['newRepeatPass'] : '';
@@ -31,32 +31,30 @@ while ($row = mysqli_fetch_assoc($res)) {
 
 
 }
-echo '<pre>';
-print_r($users);
 
-$username = $users[2]['user_name'];
-
-
-echo $username;
 
 foreach ($users as $user) {
 
 
     $logPass = password_verify($oldPass, $user['password']);
-    $newHashPass = password_hash($newRepeatPass,PASSWORD_DEFAULT);
+    if ($newPass == $newRepeatPass)
+        $newHashPass = password_hash($newPass, PASSWORD_DEFAULT);
+    else
+        $newHashPass = '';
+    if ($user['id'] == $id) {
 
-    if ($loginMod == $user['login'] && $logPass == true) {
-        $tempUser=$user['login'];
-        $queryMod = "UPDATE `users` SET `password`='$newHashPass'WHERE `id` =$id ";//UPDATE `users` SET `login`='www' WHERE (`id`='71')
-        $result = mysqli_query($db,$queryMod);
-        mysqli_close($db);
-        break 1;
+        if ($logPass == true) {
+
+            $tempUser = $user['login'];
+            $queryMod = "UPDATE `users` SET `password`= '$newHashPass'WHERE `id` = $id ";//UPDATE `users` SET `login`='www' WHERE (`id`='71')
+            $result = mysqli_query($db, $queryMod);
+            mysqli_close($db);
+            break;
+        }
+
     }
+
 }
-
-
-
-
 
 
 ?>
@@ -73,8 +71,8 @@ foreach ($users as $user) {
     <pre>
     <form action="lk.php" method="post">
         <input class="form-control" placeholder="Enter old password" autocomplete="off" name="oldPass">
-        <input class="form-control" placeholder="Enter new password" type="password" autocomplete="off" name="newPass">
-        <input class="form-control" placeholder="Repeat new password" type="password" autocomplete="off"
+        <input class="form-control" placeholder="Enter new password" type="text" autocomplete="off" name="newPass">
+        <input class="form-control" placeholder="Repeat new password" type="text" autocomplete="off"
                name="newRepeatPass">
         <!--        <div>-->
         <!--            <input class="form-check-input" type="checkbox" name="cbRemember">Remember me-->

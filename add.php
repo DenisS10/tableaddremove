@@ -13,31 +13,31 @@ $task = isset($_POST['task']) ? $_POST['task'] : '';
 $deadline = isset($_POST['deadline']) ? $_POST['deadline'] : '';
 $userId = $_SESSION['id'];
 
-echo $userId;
 
 
 
-if (!empty($task) && !empty($deadline)) {
+
+    if (!empty($task) && !empty($deadline)) {
 
 
 
-    $db = mysqli_connect('site.local',
-        'root',
-        '',
-        'Tasks'
-    );
-    if (!$db) {
-        echo $db->errno . ' ' . $db->error . ' ';
-        print_r($db->error_list);
-        exit();
-    }
-    $currDate = time();
+        $db = mysqli_connect('site.local',
+            'root',
+            '',
+            'Tasks'
+        );
+        if (!$db) {
+            echo $db->errno . ' ' . $db->error . ' ';
+            print_r($db->error_list);
+            exit();
+        }
+        $currDate = time();
 
-    $querySave="insert into `task` (`user_id`,`task`, `deadline`,`creation_date`) values($userId,'$task',$deadline,$currDate)";
+        $querySave="insert into `task` (`user_id`,`task`, `deadline`,`creation_date`) values($userId,'$task',$deadline,$currDate)";
 
-    $result = mysqli_query($db,$querySave);
+        $result = mysqli_query($db,$querySave);
 
 
-    mysqli_close($db);
+        mysqli_close($db);
 
 }
