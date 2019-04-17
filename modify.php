@@ -49,9 +49,9 @@ while ($row = mysqli_fetch_assoc($result)) {
 
 
 }
-echo '<pre>';
-print_r($lines);
-
+//echo '<pre>';
+//print_r($lines);
+//
 
 
 if ($db) {
@@ -62,7 +62,7 @@ if ($db) {
 
     //$lines = explode('&', $line);
 
-    echo  $lines[0]['task'];
+   // echo  $lines[0]['task'];
     foreach ($lines as $line) {
 
 

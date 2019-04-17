@@ -19,18 +19,42 @@ $modTask = isset($_GET['modTask']) ? $_GET['modTask'] : '';
 $modDeadline = isset($_GET['modDeadline']) ? $_GET['modDeadline'] : '';
 
 
+if (!empty($modTask) && !empty($modDeadline)) {
 
-$workArr = file("table.txt"); // Считываем весь файл в массив
+
+    $db = mysqli_connect('site.local',
+        'root',
+        '',
+        'Tasks'
+    );
+    if (!$db) {
+        echo $db->errno . ' ' . $db->error . ' ';
+        print_r($db->error_list);
+        exit();
+    }
+    $currDate = time();
+
+    $querySave = "UPDATE `task` SET `task` = '$modTask', `deadline` = $modDeadline,`mod_date`=$currDate where id =$id";
+    //UPDATE `users` SET `password`= '$newHashPass'WHERE `id` = $id
+    echo $querySave;
+    $result = mysqli_query($db, $querySave);
+
+
+    mysqli_close($db);
+}
+
+
+//$workArr = file("table.txt"); // Считываем весь файл в массив
 
 //if (isset($numberOfRecord) && $numberOfRecord > 0) {
 //$recordCount--;
-$workArr[$id - 1] = $modTask . '&' . $modDeadline . '&' . PHP_EOL; //Рефакторинг массива
+//$workArr[$id - 1] = $modTask . '&' . $modDeadline . '&' . PHP_EOL; //Рефакторинг массива
 //file_put_contents("table.txt", implode("", $workArr));//Запись нового массива в файл
 
 
 
 //unset($file_out[$numberOfRecord]);    //удаляем строчку
-// $numberOfRecord = '';
+ //$numberOfRecord = '';
 //}
 
 ?>

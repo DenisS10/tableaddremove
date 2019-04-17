@@ -7,10 +7,12 @@ error_reporting(E_ALL);
 if (!isset($_COOKIE['auth']) || $_COOKIE['auth'] != 'ok') {
 
     header('location: login.php');
+
 }
 else{
     setcookie('auth','ok',time()-1);
     header('location: index.php');
+    session_destroy();
 }
 
 
